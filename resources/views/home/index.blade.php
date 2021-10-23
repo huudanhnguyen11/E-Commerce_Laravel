@@ -1,0 +1,12 @@
+@extends('layout.primary')
+@section('content')
+@include('home._content1')
+@include('home._content2')
+@include('home._content3')
+@include('home._content4')
+@include('home._content5')
+@include('home._content6')
+@include('home._content7')
+@include('home._content8')
+@include('home._content9')
+@endsection
