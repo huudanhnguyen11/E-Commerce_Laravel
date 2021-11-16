@@ -13,9 +13,6 @@
                         <th>Price</th>
                         <th>Discount</th>
                         <th>Image</th>
-                        <!-- <th>Brand</th>
-                        <th>Category</th> -->
-                        <!-- <th>Description</th> -->
                         <th>Update</th>
                         <th>Delete</th>
                     </tr>
@@ -28,9 +25,6 @@
                         <td>{{$item->price}}</td>
                         <td>{{$item->discount}}</td>
                         <td><img style="width: 50px; height: 50px;" src="{{$item->productimage}}" alt=""></td>
-                        <!-- <td>{{$item->brand['brandname']}}</td>
-                        <td>{{$item->category['categoryname']}}</td> -->
-                        <!-- <td>{{$item->description}}</td> -->
                         <td>
                             <div style="font-size: 40px;">
                                 <a href="{{route('admin.product.update', ['id'=>$item['id']])}}" style="color: darkgrenn;">

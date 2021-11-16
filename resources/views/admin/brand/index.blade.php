@@ -1,5 +1,10 @@
 @extends('admin.template.master')
 @section('main')
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+    <p>{{$message}}</p>
+</div>
+@endif
 <h2 class="card-title">Brand Management</h2>
 <a href="{{route('admin.brand.create')}}" class="btn btn-gradient-success btn-fw">Create</a>
 <div class="grid-margin stretch-card mt-4">

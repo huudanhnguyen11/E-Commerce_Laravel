@@ -1,6 +1,6 @@
 @extends('admin.template.master')
 @section('main')
-<h2 class="card-title">Product Management</h2>
+<h2 class="card-title">Order Management</h2>
 <a href="{{route('admin.order.create')}}" class="btn btn-gradient-success btn-fw">Create</a>
 <div class="grid-margin stretch-card mt-4">
     <div class="card">
@@ -12,6 +12,7 @@
                         <th>Tên khách hàng</th>
                         <th>Ngày tạo</th>
                         <th>Trạng thái</th>
+                        <th>Địa chỉ giao hàng</th>
                         <th>Thanh toán</th>
                         <th>Chi tiết</th>
                         <th>Update</th>
@@ -25,6 +26,7 @@
                         <td><a href="{{route('admin.customer.update',['id'=>$item['customerid']])}}">{{$item->customer['customername']}}</a></td>
                         <td>{{date("d-m-Y",strtotime($item->createddate))}}</td>
                         <td>{{$item->statusorder}}</td>
+                        <td>{{$item->shippingaddress . ', ' . $item->shippingcity}}</td>
                         <td>{{$item->paymenttype}}</td>
                         <td>
                             <div style="font-size: 40px;">

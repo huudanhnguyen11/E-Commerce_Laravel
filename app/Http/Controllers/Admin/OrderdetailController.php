@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class OrderdetailController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index($id)
     {
         $order = Order::find($id);

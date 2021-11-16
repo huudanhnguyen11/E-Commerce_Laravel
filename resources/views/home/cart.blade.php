@@ -5,14 +5,13 @@
         <div class="main-order">
             <div class="content">
                 <?php $total_price = 0; ?>
-                @if(session('cart'))
+                @if(session()->has('cart'))
                 @if(count($cart) > 0)
                 <p><strong>Để đặt hàng,</strong>quý khách hàng vui lòng kiểm tra sản phẩm, số lượng, giá,
                     màu sắc và điền các thông tin dưới đây:</p>
                 <div class="list-order">
                     <aside>
                         @foreach($cart as $id => $item)
-                        <?php $item_price = $item['price'] * $item['quantity']; ?>
                         <div class="p-item">
                             <div class="p-img">
                                 <img style="max-width: 60%;" src="{{'../' . $item['productimage']}}" alt="">
@@ -21,18 +20,18 @@
                                 <a style="font-size: 20px;" href="{{route('home.productdetail',['id'=>$id])}}">{{$item['productname']}}</a>
                             </div>
                             <div class="p-price">
-                                <span>{{number_format($item['price']) . 'đ'}}</span>
+                                <span>{{number_format(($item['price'] - ($item['price'] * $item['discount']/100)) * $item['quantity']) . 'đ'}}</span>
                             </div>
                             <div class="p-quanlity">
                                 <div class="dm_up_down" style="display: flex;">
-                                    <a href="{{route('home.cart.updatecart',['id'=>$id,'type'=>'down','quantity'=>$item['quantity']])}}" style="margin-right: 5px;" type="button" class="btn btn-danger btn-fw">-</a>
+                                    <a href="{{route('home.cart.updatecart',['id'=>$id,'type'=>'down'])}}" style="margin-right: 5px;" type="button" class="btn btn-danger btn-fw">-</a>
                                     <label for="">{{$item['quantity']}}</label>
-                                    <a href="{{route('home.cart.updatecart',['id'=>$id,'type'=>'up','quantity'=>$item['quantity']])}}" style="margin-left: 5px;" type="button" class="btn btn-danger btn-fw">+</a>
+                                    <a href="{{route('home.cart.updatecart',['id'=>$id,'type'=>'up'])}}" style="margin-left: 5px;" type="button" class="btn btn-danger btn-fw">+</a>
                                     <a href="{{route('home.cart.deletecart',['id'=>$id])}}" style="margin-left: 10px;" type="button" class="btn btn-danger btn-fw">X</a>
                                 </div>
                             </div>
                         </div>
-                        <?php $total_price += ((int)$item['price'] * $item['quantity']); ?>
+                        <?php $total_price += ($item['price'] - ($item['price'] * $item['discount'] / 100)) * $item['quantity']; ?>
                         @endforeach
                     </aside>
                     <div class="total">
@@ -40,25 +39,26 @@
                         <span class="right"><span>{{number_format($total_price)}}</span>đ</span>
                     </div>
                 </div>
-                <form action="" method="POST">
+                <form action="{{route('home.cart.order')}}" method="POST">
+                    @csrf
                     <div class="info-customer">
                         <div class="step step-1">
                             <h3 class="title">1. Thông tin khách hàng</h3>
                             <!-- thong tin khach hang -->
                             <div class="item-form">
-                                <input type="text" placeholder="Họ và tên" id="buyer_name" name="customerName" required>
+                                <input type="text" placeholder="Họ và tên" name="customerName" required>
                             </div>
                             <div class="item-form">
-                                <input type="text" placeholder="Số điện thoại" id="buyer_mobile" name="phone" required>
+                                <input type="text" placeholder="Số điện thoại" name="phone" required>
                             </div>
                             <div class="item-form">
-                                <input type="text" placeholder="Nhập địa chỉ" id="buyer_mobile" name="address" required>
+                                <input type="text" placeholder="Nhập địa chỉ" name="address" required>
                             </div>
                             <div class="item-form">
-                                <input type="text" placeholder="Nhập email" id="buyer_email" name="email" required>
+                                <input type="text" placeholder="Nhập email" name="email" required>
                             </div>
                             <div class="item-form">
-                                <input type="text" placeholder="Ghi chú" id="buyer_note" name="description">
+                                <input type="text" placeholder="Ghi chú" name="description">
                             </div>
                         </div>
                         <div class="step step-2">
@@ -73,10 +73,10 @@
                             <div class="main-order">
                                 <div class="item-form">
                                     <select required name="shippingCity" id="buyer_province">
-                                        <option value="0">Chọn Tỉnh/Thành phố</option>
-                                        <option value="1">Hà nội</option>
-                                        <option value="2">Đà Nẵng</option>
-                                        <option value="3">TP HCM</option>
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
+                                        <option value="Hà nội">Hà nội</option>
+                                        <option value="Đà Nẵng">Đà Nẵng</option>
+                                        <option value="TP HCM">TP HCM</option>
                                     </select>
                                 </div>
                                 <div class="item-form">
@@ -113,7 +113,11 @@
                 <b>Giỏ hàng bị rỗng</b>
                 @endif
                 @else
-                <b>Giỏ hàng bị rỗng</b>
+                @if($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <b>{{$message}}</b>
+                </div>
+                @endif
                 @endif
             </div>
         </div>

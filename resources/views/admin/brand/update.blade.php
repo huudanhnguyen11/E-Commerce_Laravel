@@ -1,5 +1,14 @@
 @extends('admin.template.master')
 @section('main')
+@if($errors->any)
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <div class="card">
     <div class="card-body">
         <h2 class="card-title">BRAND MANAGEMENT</h2>
@@ -12,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputName1">Brand Image</label>
-                <input type="text" class="form-control" name="brandimg_update" value="{{$brand->brandimg}}">
+                <input type="file" class="form-control" name="brandimg_update" value="{{$brand->brandimg}}"><img src="../../{{$brand->brandimg}}" width="200px">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword4">Description</label>

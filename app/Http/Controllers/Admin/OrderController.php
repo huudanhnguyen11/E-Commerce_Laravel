@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function test()
     {
         $mydata = OrderDetail::join('products', 'products.id', '=', 'orderdetails.productid')->where('orderdetails.orderid', '=', 10)->get(['orderdetails.id as orderdtid', 'products.id as productid', 'products.productname', 'orderdetails.quantity']);

@@ -1,6 +1,6 @@
 @extends('admin.template.master')
 @section('main')
-<h2 class="card-title">Product Management</h2>
+<h2 class="card-title">OrderDetail Management</h2>
 <div class="grid-margin stretch-card mt-4">
     <div class="card">
         <div class="card-body">
@@ -50,7 +50,7 @@
                             <td><img width="60px" height="75px" src="{{'../' . $item->productimage}}" alt=""></td>
                             <td> {{$item->quantity}}</td>
                         </tr>
-                        <?php $total_price += ((int)$item['price'] * $item['quantity']); ?>
+                        <?php $total_price += ($item['price'] - ($item['price'] * $item['discount']/100)) * $item['quantity']; ?>
                     </tbody>
                     @endforeach
                 </table>
